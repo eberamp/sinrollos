@@ -41,6 +41,11 @@ body {
     padding-bottom: 2em !important;
 }
 
+.height-margin-1{
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+}
+
 .top-margin-1{
     margin-top: 1em !important;
 }
@@ -65,10 +70,11 @@ i.massive.icon {
     color: #1e67af;
 }
 
-/* Use min-height to wrap the content when the layout changes
-eg. stackable grid
-this will avoid content from appearing like it overflows the section
-*/
+/*-------------------------------------------------------
+Use min-height to wrap the content when the layout changes
+eg. stackable grid. This will avoid content from appearing
+like it overflows the section on mobile devices.
+--------------------------------------------------------*/
 section {
     min-height: 100%;
 }
