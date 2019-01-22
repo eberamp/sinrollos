@@ -63,7 +63,10 @@
 							</div>
 							<a class="ui basic left pointing red label">
 
-							<?php echo 2048 ?>
+							<?php 
+							include './scripts/getLikes.php';
+							echo getLikeCount();
+							?>
 
 							</a>
 						</div>
@@ -75,7 +78,12 @@
 								<i class="heart icon"></i> Like
 							</div>
 							<a id="count" class="ui basic left pointing label">
-							2048
+							
+							<?php 
+							include './scripts/getLikes.php';
+							echo getLikeCount();
+							?>
+
 							</a>
 						</div>
 
@@ -210,7 +218,7 @@
 						<img src="./images/avatar-hector-montero.jpg">
 						</div>
 						<div class="content">
-						<a class="header">Hector Montero</a>
+						<a href="https://www.facebook.com/carmain.estormbreaker" class="header">Hector Montero</a>
 						</div>
 					</div>
 				</div>
@@ -221,7 +229,7 @@
 						<img src="./images/avatar-kevin-dominguez.png">
 						</div>
 						<div class="content">
-						<a class="header">Kevin Dominguez</a>
+						<a href="https://www.facebook.com/kevin.dominguezjimenez.3" class="header">Kevin Dominguez</a>
 						</div>
 					</div>
 				</div>
@@ -232,7 +240,7 @@
 						<img src="./images/avatar-ariagna-salazar.jpg">
 						</div>
 						<div class="content">
-						<a class="header">Ariagna Salazar</a>
+						<a href="https://www.facebook.com/AriiBanSal" class="header">Ariagna Salazar</a>
 						</div>
 					</div>
 				</div>
@@ -251,14 +259,22 @@
 			</div>
 
 			<div class="ui grid container">
-				<form class="ui form column" action="" method="post">
+				<form id="message-form" class="ui form column" action="index.php#contacto" method="POST">
 					<div class="field">
 						<label>Tu nombre: </label>
-						<input type="text" name="first-name" placeholder="Escribe tu nombre">
+						<input type="text" name="user-name" placeholder="Escribe tu nombre" required>
+					</div>
+					<div class="field">
+						<label>Tu correo electronico: </label>
+						<input type="email" name="email" placeholder="Escribe tu correo electronico" required>
 					</div>
 					<div class="field">
 						<label>Escribenos tus comentarios</label>
-						<textarea rows="3"></textarea>
+						<textarea name="message" rows="3" required></textarea>
+					</div>
+					<div class="ui success message">
+						<div class="header">Gracias por escribirnos!</div>
+						<p>Si te late la idea compartela con tus amigos.</p>
 					</div>
 					<button class="ui primary button" type="submit">Enviar</button>
 				</form>
@@ -275,8 +291,7 @@
 	</section>
 
 	<!-- JavaScript -->
-	<script src="./dependencies/jquery-3.3.1.min.js">
-	</script>
+	<script src="./dependencies/jquery-3.3.1.min.js"></script>
 	<script src="./styles/semantic.min.js"></script>
 
 	<script>
@@ -300,11 +315,42 @@
 					voto: "voted"
 				}),
 				dataType: "text",
-				success: function(results){
-					console.log(results)
+				success: function(result){
+					console.log(result)
 				}
 			});
 		}
+
+		$('#message-form').form({
+			fields: {
+				email: {
+					identifier : 'email',
+					rules: [{
+						type   : 'email',
+						prompt : 'Por favor introduce un e-mail valido'
+					}]
+				}
+			}
+		});
+
+
+		$('#message-form').submit(function(e) {
+			e.preventDefault();
+			const form = document.getElementById('message-form');
+			console.log("submitting");
+			
+			$.ajax({
+			type: "POST",
+			url: 'http://localhost:8080/scripts/message.php',
+			data: $(this).serialize(),
+			success: function(result) {
+					console.log("submitted");
+					console.log(result);
+					form.classList.add('success');
+				},
+			});
+		});
+
 	</script>
 
 </body>
